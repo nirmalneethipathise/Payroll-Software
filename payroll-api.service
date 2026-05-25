@@ -1,0 +1,20 @@
+[Unit]
+Description=Payroll SaaS API
+After=network.target
+
+[Service]
+WorkingDirectory=/var/www/payroll-api
+ExecStart=/usr/bin/dotnet PayrollAPI.dll
+Restart=always
+RestartSec=10
+SyslogIdentifier=payroll-api
+User=www-data
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=ASPNETCORE_URLS=http://localhost:5000
+Environment="ConnectionStrings__DefaultConnection=Server=localhost;Port=3306;Database=payroll_saas;User=root;Password=YOUR_PASSWORD;"
+Environment="JwtSettings__SecretKey=YOUR_STRONG_256_BIT_KEY_HERE"
+Environment="JwtSettings__Issuer=PayrollSaaS"
+Environment="JwtSettings__Audience=PayrollSaaSUsers"
+
+[Install]
+WantedBy=multi-user.target
